@@ -1,0 +1,28 @@
+
+- name: Copy license to /tmp
+  copy:
+    src: "splunk.license"
+    dest: "/tmp/"
+    mode: '0644'
+  tags: copy_license
+
+- name: Add license to Splunk
+  command: "{{ splunk_bin }} add licenses /tmp/splunk.license -auth '{{ admin_username }}:{{ admin_password }}'"
+  tags: add_license
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+- name: Delete license from /tmp
+  file:
+    path: "/tmp/splunk.license"
+    state: absent
+  tags: delete_license
+
+

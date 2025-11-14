@@ -1,0 +1,15 @@
+---
+# defaults file for splunk
+local_system: "/opt/splunk/etc/system/local/"
+splunk_bin: "/opt/splunk/bin/splunk"
+server.conf: "/opt/splunk/etc/system/local/server.conf"
+authorize.conf: "/opt/splunk/etc/system/local/authorize.conf"
+_cluster: "/opt/splunk/etc/manager-apps/_cluster/local/"
+outputs.conf: "/opt/splunk/etc/system/local/outputs.conf"
+splunk_monitoring_console_local: "/opt/splunk/etc/apps/splunk_monitoring_console/local"
+splunk_monitoring_console_assets.conf: "/opt/splunk/etc/apps/splunk_monitoring_console/local/splunk_monitoring_console_assets.conf"
+distsearch.conf: "/opt/splunk/etc/system/local/distsearch.conf"
+manager-apps: "/opt/splunk/etc/manager-apps/"
+deployment: "/opt/splunk/etc/deployment-apps/"
+serverclass.conf: "/opt/splunk/etc/system/local/serverclass.conf"
+shcluster_apps: "/opt/splunk/etc/shcluster/apps/"

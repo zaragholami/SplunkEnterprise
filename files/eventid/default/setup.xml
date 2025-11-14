@@ -1,0 +1,23 @@
+<setup>
+
+    <block title="Specify the index and our data sources matching Windows events"
+        endpoint="admin/macros"
+        entity="event_sources">
+
+        <input field="definition">
+            <label>The EventId App will analyze the specified index</label>
+            <type>text</type>
+        </input>
+    </block>
+
+    <block title="Specify the index storing Windows XML events (only if using renderXML stanza)"
+        endpoint="admin/macros"
+        entity="event_sources_xml">
+
+        <input field="definition">
+            <label>The XML dashboard will analyze the specified index</label>
+            <type>text</type>
+        </input>
+    </block>     
+
+</setup>

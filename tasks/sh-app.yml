@@ -1,0 +1,43 @@
+- name: Ensure destination directory exists
+  file:
+    path: "{{ shcluster_apps }}"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Copy Splunk_Linux_App
+  copy:
+    src: "Splunk_Linux_App"
+    dest: "{{ shcluster_apps }}"
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Copy Splunk_TA_nix
+  copy:
+    src: "Splunk_TA_nix"
+    dest: "{{ shcluster_apps }}"
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Copy Splunk_TA_windows
+  copy:
+    src: "Splunk_TA_windows"
+    dest: "{{ shcluster_apps }}"
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Copy eventid
+  copy:
+    src: "eventid"
+    dest: ""{{ shcluster_apps }}""
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Apply shcluster-bundle to Search Heads
+  command: "/opt/splunk/bin/splunk apply shcluster-bundle --answer-yes -target https://{{ captain_ip }}:8089 -auth '{{ admin_username }}':'{{ admin_password }}'"
+

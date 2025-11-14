@@ -1,0 +1,55 @@
+<dashboard>
+  <label>Documentation</label>  
+  <row>
+    <panel>
+      <title>Introduction</title>
+      <html>
+      <p>Welcome to the EventID.Net Windows Event Logs app!</p>
+    </html>
+  </panel>
+</row>
+<row>
+  <panel>
+      <title>Windows Event Log App sources of information</title>
+    <html>
+		<p>The Windows Event Log App assumes that Splunk is collecting information from Windows servers and workstation via one of the following methods:
+		<ul>
+			<li><a href="https://www.splunk.com/en_us/download/universal-forwarder.html">Splunk Universal Forwarder installed on the source computer</a></li>
+			<li><a href="https://msdn.microsoft.com/en-us/library/cc748890(v=ws.11).aspx">Windows Event Log Forwarding</a> configured on the source computer combined with Splunk Universal Forwarder on the collector computer</li>
+			<li><a href="https://docs.splunk.com/Documentation/Splunk/6.6.1/Data/MonitorWindowseventlogdata">Remote Windows Event Log collection via WMI</a> as Splunk input</li>
+			<li>Events collected with the renderXML feature turned on. See <a href="https://www.splunk.com/blog/2014/11/04/splunk-6-2-feature-overview-xml-event-logs.html">Feature Overview: XML Event Logs</a></li>
+		</ul>
+		</p>
+
+		<p>All these methods will collect the events and either collect them in the "wineventlog" Splunk index or record them in the default index with source the source set as "*WinEventLog*" (notice the wildcards). The app analyzes the entries matching these criteria (index="wineventlog" OR source=*WinEventLog*). This matches the defaults used by the Universal Forwarder, the collection of local Windows event logs and the collection via WMI.</p>
+
+		<p>In order to create the proper indexes, we recommend the installation of the <a href="https://splunkbase.splunk.com/app/742/">Splunk Add-on for Microsoft Windows</a> app.</p>
+
+		<p>To collect the logs from remote computers without installing the Universal Forwarded on each computer, configure the forwarding of event logs to central location using the Windows built-in event forwarding. See <a href="https://msdn.microsoft.com/en-us/library/cc748890(v=ws.11).aspx">Configure Computers to Forward and Collect Events</a> for details on how to configure a computer as a collector of logs.</p>
+			 
+    </html>
+  </panel>
+</row>
+<row>
+  <panel>
+      <title>Additional information and troubleshooting</title>
+    <html>
+		<p>If no data is displayed, please verify that the Universal Forwarder is installed properly and that the all the Windows event logs are sent to the "wineventlog" index (or the WinEventLog* sources).</p>
+
+		<p>If the data is stored in a different index, the user can update the macros.conf [event_sources] section by using the application setup.</p>
+
+		<p>The Interesting Processes section from the Processes dashboard is partially based on a presentation by Michael Gough from <a href="https://www.malwarearchaeology.com/">www.malwarearchaeology.com</a>: "<a href="https://www.malwarearchaeology.com/home/2016/5/7/windows-top-10-event-logs-from-my-dell-enterprise-security-summit-talk">The Top 10 Windows Event ID's Used To Catch Hackers In The Act</a>". See for the presentation slides and information on how to enable the auditing of processes, including command-line based ones. The list of "interesting processes" is based on a <a href="https://www.jpcert.or.jp/english/pub/sr/ir_research.html">study by JPCERT CC</a> (Japan Computer Emergency Response Team Coordination Center) on detecting lateral movement through tracking of event logs. The list is stored in C:\Program Files\Splunk\etc\apps\eventid\lookups\interesting_processes.csv and it can be adjusted with a text editor if needed. For full functionality the audit of the command line arguments has to be enabled as described in <a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/command-line-process-auditing">Command Line Process Auditing</a></p>
+
+		<p>The XML dashboard is design to report Windows events rendered from the XML by using the renderXML stanza. The renderXML option reduced the volume of data to about 25% of the regular events, however some details such as the full description of the event are no longer recorded. See <a href="https://www.splunk.com/blog/2014/11/04/splunk-6-2-feature-overview-xml-event-logs.html">Feature Overview: XML Event Logs</a> for more details.</p>
+	
+		<p>Each of the dashboard can be set as an alarm (i.e. notifications when a certain number of failed logins are recorded, when certain processes are executed, etc).</p>
+
+		<p>Send any suggestions and questions to support@altairtech.ca. We can also provide advice in setting up the Splunk receiver for the Universal Forwarder.</p>
+		
+		<p>We publish the most current version of EventID.Net Windows Event Logs Splunk app on <a href="https://www.eventid.net/splunk_addon.asp">www.eventid.net</a>. Splunk may takes weeks or months to certify a new version.</p>
+
+    </html>
+    </panel>
+  </row>
+  
+</dashboard>

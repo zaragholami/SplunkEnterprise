@@ -1,0 +1,14 @@
+<nav search_view="search">
+  <view name="eventid" default="true" />
+  <view name="audit_events" />
+  <view name="users_and_groups" />
+  <view name="interesting_events" />
+  <view name="interesting_processes" />
+  <view name="windows_event_sources" />
+  <view name="windows_events_xml_source" />  
+  <view name="search" />
+  <view name="dashboards" />
+  <view name="documentation" />
+  <!-- This is an external link -->
+  <a href="https://www.eventid.net/">EventId.Net</a>
+</nav>

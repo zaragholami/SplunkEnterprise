@@ -1,0 +1,165 @@
+{
+  "version": "1.0",
+  "date": "2024-04-19T16:02:40.378404738Z",
+  "hashAlgorithm": "SHA-256",
+  "app": {
+    "id": 3067,
+    "version": "1.5.1",
+    "files": [
+      {
+        "path": "README.txt",
+        "hash": "dc3b8a4d9a70d328da7aa6d3eb19105c8698b7a8d5c932fd954dd562649ffc37"
+      },
+      {
+        "path": "license-eula.txt",
+        "hash": "98b7ba70adba20e20074cd61e6d739dab3432f88b6662d25100589c4313c91c6"
+      },
+      {
+        "path": "license-eula.rtf",
+        "hash": "52ed437423e1fec818c133c2aa5399a09051e3d852214bb097abd4493bf524c7"
+      },
+      {
+        "path": "appserver/static/default.css",
+        "hash": "f382733e76c81ab6a65732f4bfe16695d4c3c6d6e95ee1f982c95b1e535c8182"
+      },
+      {
+        "path": "appserver/static/appIcon.png",
+        "hash": "ed6f90e4767434de479b483bbf61a33e6a6df49e6343e175a4429571d6f94ca4"
+      },
+      {
+        "path": "appserver/static/appIcon_2x.png",
+        "hash": "514fde35b97d6aa927b537c258a0d56c213e8d44f05b06b4eb64d628c5b8c5fa"
+      },
+      {
+        "path": "appserver/static/dashboard.js",
+        "hash": "72d5964740d1d502779aac770157240dbe19098efd58b235031ff00af66a517d"
+      },
+      {
+        "path": "appserver/static/dashboard.css",
+        "hash": "041f9cd8ca93efe80552900f56377e4f0e8c6c7d2e8074b4d2cd738c947e44c5"
+      },
+      {
+        "path": "appserver/static/application.css",
+        "hash": "3fa88520e98d77a7b64470af4a8d5f3c5fb38780536254acb1390eef2e3dea44"
+      },
+      {
+        "path": "static/appIconAlt.png",
+        "hash": "04b6f005badc8e43102a7f7c50507ebb6f3a7190419eeba186af82841e825cf5"
+      },
+      {
+        "path": "static/appIconAlt_2x.png",
+        "hash": "c81524b8d5be9fcfe27824942778edcdb8816ea76962687caccf71585bd949af"
+      },
+      {
+        "path": "static/appIcon.png",
+        "hash": "5de9138eda5158b773b127214877b6397440b83ba1c54a4e396e0ed832b28eab"
+      },
+      {
+        "path": "static/appIcon_2x.png",
+        "hash": "84c8b9d977c0de2de38050321d8af789ea096d791fc4ae0febf8276aa649d495"
+      },
+      {
+        "path": "bin/ev_process_proc.py",
+        "hash": "7e22ec9f4a2a0b0fbff25dd2337cdb382a3a5d3320f59510ad88c405f33715c1"
+      },
+      {
+        "path": "bin/ev_process_xml_parameters.py",
+        "hash": "09c2f00bf6976933c55387524ca5079263b62c30144ea1564bf89d1e278fa765"
+      },
+      {
+        "path": "lookups/eventid_interesting_processes.csv",
+        "hash": "9ea2fff7a3387f1616db788316cf93424cd35a8ca68b7438d4acf8e3bad35fcd"
+      },
+      {
+        "path": "lookups/eventid_interesting_events.csv",
+        "hash": "2a0d8b42141c332ecd522c08be82ff75dfcb182b65c419fc9071cd939931bf8a"
+      },
+      {
+        "path": "lookups/xml_event_types.csv",
+        "hash": "f659b8fd89a17314777c7b7c4db3c6621881c329de848de901696f97bcf9f8f3"
+      },
+      {
+        "path": "default/workflow_actions.conf",
+        "hash": "cefd3810066e5ea0724cc4209bbcebf8e02f62a62e2701f7a4a736dc4daf24d7"
+      },
+      {
+        "path": "default/setup.xml",
+        "hash": "9a99194460d4b208c23321ed3d6ae9fb3d22c8228fc354b1b0f2709c463f9af2"
+      },
+      {
+        "path": "default/macros.conf",
+        "hash": "65750e629a66b2d01c4d4378afe62cc01a04ee6e50f9d486b95b28952df503f8"
+      },
+      {
+        "path": "default/app.conf",
+        "hash": "3b8c9bb17010f6617ae2eb7e354314e7261acea9140e07876afde40fd0a1e9f7"
+      },
+      {
+        "path": "default/transforms.conf",
+        "hash": "a1bf8d3f1ac933a79755be12f74c51521c143af67df030b6bdab86a9b2b841bd"
+      },
+      {
+        "path": "default/data/ui/views/users_and_groups.xml",
+        "hash": "4f88bb0db7d02c4db24addabb3e066f153205932344219abe0cdccd95598c20e"
+      },
+      {
+        "path": "default/data/ui/views/eventid.xml",
+        "hash": "8d81838c8772e2574815ffe2b0bb340848159fbc82ea9692b174ff8347e18f8b"
+      },
+      {
+        "path": "default/data/ui/views/README",
+        "hash": "f75000f12510d242fc99decea9e7e5a46a1a8bef910d3d6f741797816b35034d"
+      },
+      {
+        "path": "default/data/ui/views/audit_events.xml",
+        "hash": "07831e6022317dac835334ddc71bcd69ab070a36c226775bcf8ab3d4f978f487"
+      },
+      {
+        "path": "default/data/ui/views/windows_events_xml_source.xml",
+        "hash": "eca2ee4e7ceb5ff9d647923288c2239221036bf8f527ad8adf152dad18adbdcf"
+      },
+      {
+        "path": "default/data/ui/views/interesting_processes.xml",
+        "hash": "6eddc62a8c6f1699aef29beaf3a473ad3ee027d64b19145060e9485c62bf0580"
+      },
+      {
+        "path": "default/data/ui/views/windows_event_sources.xml",
+        "hash": "6ba446cb74dae22077480b71e629740c59a076a397602769f2efdff5e339d023"
+      },
+      {
+        "path": "default/data/ui/views/interesting_events.xml",
+        "hash": "0d328993aff2184d91580c3a559bac3a5cc132fa615c59b59334f4574aee84c3"
+      },
+      {
+        "path": "default/data/ui/views/documentation.xml",
+        "hash": "8c637bd333af2d673a9ddce83bf11088960477e0df6469e7308e9422db43c9e5"
+      },
+      {
+        "path": "default/data/ui/nav/default.xml",
+        "hash": "4b6b9487aa7fdce166ae3a289bda278b631811455ddce7b54263999776b9024d"
+      }
+    ]
+  },
+  "products": [
+    {
+      "platform": "splunk",
+      "product": "enterprise",
+      "versions": [
+        "7.0",
+        "7.1",
+        "7.2"
+      ],
+      "architectures": [
+        "x86_64"
+      ],
+      "operatingSystems": [
+        "windows",
+        "linux",
+        "macos",
+        "freebsd",
+        "solaris",
+        "aix"
+      ]
+    }
+  ]
+}

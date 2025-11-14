@@ -1,0 +1,131 @@
+- name: Copy Splunk_TA_windows to deployment-apps
+  copy:
+    src: "Splunk_TA_windows"
+    dest: "{{ deployment }}"
+    owner: splunk
+    group: splunk
+    mode: '0755'
+    directory_mode: '0755'
+
+- name: Copy Splunk_TA_nix to deployment-apps
+  copy:
+    src: "Splunk_TA_nix"
+    dest: "{{ deployment }}"
+    owner: splunk
+    group: splunk
+    mode: '0755'
+    directory_mode: '0755'
+
+- name: Create directory for listen9997 in the DS
+  file:
+    path: "{{ deployment }}listen9997/local"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create and populate inputs.conf file
+  copy:
+    dest: "{{ deployment }}listen9997/local/inputs.conf"
+    content: |
+      [splunktcp://9997]
+      disabled = 0
+    owner: splunk
+    group: splunk
+    mode: '0644'
+
+- name: Create directory for send-to-indexers app
+  file:
+    path: "{{ deployment }}send-to-indexers/local"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create outputs.conf file
+  copy:
+    dest: "{{ deployment }}send-to-indexers/local/outputs.conf"
+    content: |
+      [tcpout]
+      defaultGroup = idx-group
+      [tcpout:idx-group]
+      server = {{ idx_ips | join(':9997, ') }}:9997
+    owner: splunk
+    group: splunk
+    mode: '0644'
+
+- name: Create directory for send_to_hf in the DS
+  file:
+    path: "{{ deployment }}send_to_hf/local"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create and populate outputs.conf for send_to_hf
+  copy:
+    dest: "{{ deployment }}/send_to_hf/local/outputs.conf"
+    content: |
+       [tcpout]
+       defaultGroup = hf
+
+       [tcpout:hf]
+       server = {{ hf_ips | join(':9997, ') }}:9997
+    owner: splunk
+    group: splunk
+    mode: '0644'
+
+- name: Create system local directory
+  file:
+    path: "{{ local_system }}"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create and configure serverclass.conf
+  copy:
+    dest: "{{ serverclass.conf }}"
+    content: |
+
+      [serverClass:ALL_HF]
+      whitelist.0 = {{ hf_ips | join(', ') }}
+      machineTypesFilter = linux-x86_64
+
+      [serverClass:ALL_HF:app:listen9997]
+      restartSplunkd = true
+
+      [serverClass:ALL_HF:app:send-to-indexers]
+      restartSplunkd = true
+
+      [serverClass:ALL_HF:app:Splunk_TA_windows]
+      [serverClass:ALL_HF:app:Splunk_TA_nix]
+
+      [serverClass:Windows-server]
+      machineTypesFilter = windows-x64
+      whitelist.0 = *
+      [serverClass:Windows-server:app:Splunk_TA_windows]
+      [serverClass:Windows-server:app:send_to_hf]
+      restartSplunkd = true
+
+      [serverClass:Linux-server]
+      blacklist.0 = {{ hf_ips | join(', ') }}
+      machineTypesFilter = linux-x86_64
+      whitelist.0 = *
+      [serverClass:Linux-server:app:Splunk_TA_nix]
+      [serverClass:Linux-server:app:send_to_hf]
+      restartSplunkd = true
+
+    owner: splunk
+    group: splunk
+    mode: '0644'
+
+- name: Reload deployment server
+  command: "{{ splunk_bin }} reload deploy-server -auth '{{ admin_username }}':'{{ admin_password }}'"
+  register: deploy_server_output
+  changed_when: "'Reload successful' in deploy_server_output.stdout"
+
+- name: Display deploy-server reload output
+  debug:
+    msg: "{{ deploy_server_output.stdout }}"
+

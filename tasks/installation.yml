@@ -1,0 +1,152 @@
+#------------THP----------------#    
+- name: Disable Transparent Huge Pages (THP)
+  command: grubby --update-kernel=ALL --args='transparent_hugepage=never'
+  tags: thp
+
+
+- name: Update grub on RedHat-based systems
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when: ansible_os_family == "RedHat"
+  tags: grubupdate
+
+- name: Update grub on Ubuntu/Debian-based systems
+  command: update-grub
+  when: ansible_os_family == "Debian"
+  tags: grubupdate
+
+#------------SWAP--------------#
+
+
+- name: Disable swap immediately
+  command: swapoff -a
+  tags: swap
+
+- name: Disable swap permanently in fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+  tags: swap
+
+#-----------SELINUX-----------#
+
+- name: Disable SELinux permanently
+  selinux:
+    state: disabled
+  tags: selinux
+
+
+#-----------Firewall----------#
+
+- name: Stop and disable firewalld on RedHat-based systems
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: no
+  when: ansible_os_family == "RedHat"
+  tags: firewall
+
+- name: Stop and disable UFW on Ubuntu/Debian-based systems
+  systemd:
+    name: ufw
+    state: stopped
+    enabled: no
+  when: ansible_os_family == "Debian"
+  tags: firewall
+
+#-----------COPY-------------#
+
+- name: Copy Splunk package to remote host (RHEL)
+  copy:
+    src: "{{ splunk_package_rhel }}"
+    dest: "/tmp/"
+    mode: '0644'
+  when: ansible_os_family == "RedHat"
+  tags: splunk_copy
+
+- name: Copy Splunk package to remote host (Debian/Ubuntu)
+  copy:
+    src: "{{ splunk_package_deb }}"
+    dest: "/tmp/"
+    mode: '0644'
+  when: ansible_os_family == "Debian"
+  tags: splunk_copy
+
+#-----------INSTALL----------#  
+
+- name: Install Splunk on RHEL
+  yum:
+    name: "/tmp/{{ splunk_package_rhel }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags: splunk_install
+
+- name: Install Splunk on Ubuntu/Debian
+  apt:
+    deb: "/tmp/{{ splunk_package_deb }}"
+    state: present
+  when: ansible_os_family == "Debian"
+  tags: splunk_install
+
+#----------USERSEED----------#
+
+- name: Ensure Splunk local directory exists
+  file:
+    path: "{{ local_system }}"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+  tags: createlocal
+    
+- name: Copy user-seed.conf
+  copy:
+    src: "user-seed.conf"
+    dest: "{{ local_system }}"
+    owner: splunk
+    group: splunk
+    mode: '0644'
+  tags: userseed
+
+#----------STARTSPLUNK------#
+
+- name: Accept Splunk License 
+  command: "{{ splunk_bin }} start --accept-license --answer-yes --no-prompt"
+  tags: license
+
+- name: Stop Splunk service
+  command: "{{ splunk_bin }} stop"
+  tags: stop
+
+- name: Enable boot start for Splunk
+  command: "{{ splunk_bin }} enable boot-start -systemd-managed 1 -user splunk"
+  tags: bootstart
+
+- name: Change ownership of Splunk directory
+  file:
+    path: /opt/splunk
+    owner: splunk
+    group: splunk
+    recurse: yes
+  tags: chown
+
+#-------------WEBSSL-----------#
+
+- name: Enable web-ssl in Splunk
+  command: "{{ splunk_bin }} enable web-ssl"
+  tags: webssl
+
+- name: Start Splunk service
+  systemd:
+    name: Splunkd
+    state: started
+    enabled: yes
+  tags: start
+
+#-------------REBOOT----------#
+
+- name: Reboot system and wait for SSH
+  reboot:
+    reboot_timeout: 600
+  tags: reboot
+

@@ -1,0 +1,7 @@
+---
+# handlers file for splunk
+
+- name: Restart Splunk
+  command: "{{ splunk_bin }} restart"
+  tags: restart
+

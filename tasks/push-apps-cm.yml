@@ -1,0 +1,46 @@
+- name: Copy indexes.conf to CM
+  copy:
+    src: "indexes.conf"
+    dest: "{{ _cluster }}"
+
+- name: Copy Splunk_TA_nix to CM
+  copy:
+    src: "Splunk_TA_nix"
+    dest: "{{ manager-apps }}"
+
+- name: Copy Splunk_TA_windows to CM
+  copy:
+    src: "Splunk_TA_windows"
+    dest: "{{ manager-apps }}"
+
+
+- name: Create directory for listen9997
+  file:
+    path: "{{ manager-apps }}listen9997/local"
+    state: directory
+    mode: '0755'
+
+- name: Create and configure inputs.conf
+  copy:
+    dest: "{{ manager-apps }}listen9997/local/inputs.conf"
+    content: |
+      [splunktcp://9997]
+      disabled = 0
+    mode: '0644'
+
+- name: Apply cluster-bundle
+  command: "(( splunk_bin }} apply cluster-bundle -auth '{{ admin_username }}':'{{ admin_password }}'"
+  register: cluster_bundle_output
+  changed_when: "'Bundle applied successfully' in cluster_bundle_output.stdout"
+
+- name: Display cluster-bundle output
+  debug:
+    msg: "{{ cluster_bundle_output.stdout }}"
+    
+- name: Run Splunk cluster-bundle-status command
+  command: "{{ splunk_bin }} show cluster-bundle-status"
+  register: bundle_status
+
+- name: Display cluster bundle status
+  debug:
+    msg: "{{ bundle_status.stdout }}"

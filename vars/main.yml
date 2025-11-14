@@ -1,0 +1,22 @@
+---
+# vars file for splunk
+splunk_package_rhel: "splunk--xxxxxxx-linux-2.6-x86_64.rpm"
+splunk_package_deb: "splunk--xxxxxxx-linux-2.6-amd64.deb"
+replication_factor: 2
+search_factor: 2
+cluster_secret: "changeme"
+cluster_label: "IDX"
+admin_username: "admin"
+admin_password: "changeme"
+cluster_secret: "changeme"
+indexercluster_replication_port: "8080"
+shcluster_secret: "changeme"
+shcluster_label: "shcluster"
+shcd_replication_port: 9000
+shcd_replication_factor: 2
+mc_username: "mc"
+mc_password: "changeme"
+hf_ips: "{{ groups['hf'] | map('extract', hostvars, ['ansible_host']) | list }}"
+idx_ips: "{{ groups['idx'] | map('extract', hostvars, ['ansible_host']) | list }}"
+captain_ip: "{{ hostvars[groups['captain'][0]]['ansible_host'] }}"
+

@@ -1,0 +1,113 @@
+{
+  "version": "1.0",
+  "date": "2023-10-09T05:40:55.95423161Z",
+  "hashAlgorithm": "SHA-256",
+  "app": {
+    "id": 6702,
+    "version": "3.0.0",
+    "files": [
+      {
+        "path": "default/app.conf",
+        "hash": "f7cfacdbc3424e1321779a1be574b2fe93c5e3e26deac74f541170cc871e5092"
+      },
+      {
+        "path": "default/macros.conf",
+        "hash": "116e84b545a3a881ed5011bda5cc922f8029079b267e44fa2fc8e0fe9316708a"
+      },
+      {
+        "path": "default/data/ui/nav/default.xml",
+        "hash": "e362b1963b8a56fcb81d2a9c58fcc88795ed9580097a7708fee897cd9cb274fb"
+      },
+      {
+        "path": "default/data/ui/views/README",
+        "hash": "4ccd9dc2dca5bd634f7c07ad1749e4e63a7969c84e2eff83517256f7c884cd29"
+      },
+      {
+        "path": "default/data/ui/views/Performance.xml",
+        "hash": "49f5d85b9f92e17fa122633a1f782c04a6568ad23e8f132750ab5fc3e544b930"
+      },
+      {
+        "path": "default/data/ui/views/LoginActivities.xml",
+        "hash": "4b90e096256eeeec7384e09be18dacf2c564426cab9fcc14883893adcb7d8854"
+      },
+      {
+        "path": "default/data/ui/views/LinuxOverview.xml",
+        "hash": "08b61cca1f3cec21b05d03ed73238373e2e0b20c5f563d137e0cb8cbe05241e2"
+      },
+      {
+        "path": "static/appLogo_2x.png",
+        "hash": "d0c81be03a5e12e3d902baf78269b7d752ab85fdc33306412d9f40434cb69aca"
+      },
+      {
+        "path": "static/appLogo.png",
+        "hash": "366c0e397c9a6ff77eec602983e800fe5efbb83016acdfb295baa98334cbc243"
+      },
+      {
+        "path": "static/appIcon_2x.png",
+        "hash": "530cf29234c4de4d93a05c49cb2901d71ca314027ba650baef65f55cf9df5a86"
+      },
+      {
+        "path": "static/appIconAlt_2x.png",
+        "hash": "530cf29234c4de4d93a05c49cb2901d71ca314027ba650baef65f55cf9df5a86"
+      },
+      {
+        "path": "static/appIconAlt.png",
+        "hash": "91554905ac23ca8a418d63c0b697cac6391407f041719297afb698a8c901a58e"
+      },
+      {
+        "path": "static/appIcon.png",
+        "hash": "91554905ac23ca8a418d63c0b697cac6391407f041719297afb698a8c901a58e"
+      },
+      {
+        "path": "metadata/default.meta",
+        "hash": "2b41cb8d263f976d1574559b3f16dbb1bbe9d82c9d91a18e9edab25b3b6c50be"
+      }
+    ]
+  },
+  "products": [
+    {
+      "platform": "splunk",
+      "product": "enterprise",
+      "versions": [
+        "8.0",
+        "8.1",
+        "8.2",
+        "9.0",
+        "9.1"
+      ],
+      "architectures": [
+        "x86_64"
+      ],
+      "operatingSystems": [
+        "windows",
+        "linux",
+        "macos",
+        "freebsd",
+        "solaris",
+        "aix"
+      ]
+    },
+    {
+      "platform": "splunk",
+      "product": "cloud",
+      "versions": [
+        "8.0",
+        "8.1",
+        "8.2",
+        "9.0",
+        "9.1"
+      ],
+      "architectures": [
+        "x86_64"
+      ],
+      "operatingSystems": [
+        "windows",
+        "linux",
+        "macos",
+        "freebsd",
+        "solaris",
+        "aix"
+      ]
+    }
+  ]
+}

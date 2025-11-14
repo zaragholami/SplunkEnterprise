@@ -1,0 +1,24 @@
+- name: Ensure SHCD Configuration in server.conf
+  blockinfile:
+    path: "{{ server.conf }}"
+    block: |
+    [shclustering]
+    pass4SymmKey = {{ shcluster_secret }}
+    shcluster_label = {{ shcluster_label }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    create: yes
+    owner: splunk
+    group: splunk
+    mode: "0644"
+
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+

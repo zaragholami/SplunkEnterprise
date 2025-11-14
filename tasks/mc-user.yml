@@ -1,0 +1,30 @@
+- name: Ensure authorize.conf exists
+  file:
+    path: "{{ authorize.conf }}" 
+    state: touch
+    owner: splunk
+    group: splunk
+    mode: "0644"
+
+- name: Add or update role_mc in authorize.conf
+  blockinfile:
+    path: "{{ authorize.conf }}"
+    block: |
+    [role_mc]
+    edit_user = enabled
+    grantableRoles = mc
+    srchMaxTime = 8640000
+    srchTimeEarliest = -1
+    srchTimeWin = -1
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    create: yes
+    owner: splunk
+    group: splunk
+    mode: "0644"
+
+- name: Reload Splunk authentication settings after creating role
+  command: "{{ splunk_bin }} reload auth -auth '{{ admin_username }}:{{ admin_password }}'"
+
+- name: Create mc user with role mc
+  command: "{{ splunk_bin }} add user {{ mc_username }} -password '{{ mc_password }}' -role mc -auth '{{ admin_username }}:{{ admin_password }}'"
+

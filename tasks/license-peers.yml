@@ -1,0 +1,17 @@
+- name: Configure Splunk License Peer
+  command: >
+    {{ splunk_bin }} edit licenser-localslave
+    -manager_uri https://{{ hostvars[groups['lm'][0]].ansible_host }}:8089
+    -auth '{{ admin_username }}:{{ admin_password }}'
+  tags: configure_license_peer
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+

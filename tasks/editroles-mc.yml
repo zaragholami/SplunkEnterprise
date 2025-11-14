@@ -1,0 +1,81 @@
+- name: Ensure directory exists for splunk_monitoring_console_assets.conf
+  file:
+    path: "{{ splunk_monitoring_console_local }}"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create and populate splunk_monitoring_console_assets.conf
+  copy:
+    dest: "{{ splunk_monitoring_console_assets.conf}}" 
+    content: |
+      {% for host in groups.get('sh', []) %}
+      [{{ host }}:8089]
+      searchHeadClusters[] = {{ shcluster_label }}
+      disabled = 0
+      {% endfor %}
+
+      [settings]
+      configuredPeers = {{ (groups['all'] | difference(groups.get('ds', []) + groups.get('mc', []))) | map('regex_replace', '$', ':8089') | join(',') }}
+      disabled = 0
+    owner: splunk
+    group: splunk
+    mode: '0644'
+
+- name: Ensure directory exists for distsearch.conf
+  file:
+    path: "{{ local_system }}"
+    state: directory
+    owner: splunk
+    group: splunk
+    mode: '0755'
+
+- name: Create and populate distsearch.conf
+  copy:
+    dest: "{{ distsearch.conf }}"
+    content: |
+      [distributedSearch]
+      servers = {{ (groups['all'] | difference(groups.get('mc', []) + groups.get('ds', []) + groups.get('hf', []))) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_cluster_master]
+      servers = {{ groups.get('cm', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_deployment_server]
+      servers = {{ groups.get('ds', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_search_head]
+      servers = {{ groups.get('sh', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_license_master]
+      servers = {{ groups.get('lm', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_searchheadclustergroup_CSDI_SHC]
+      servers = {{ (groups.get('sh', []) + groups.get('shcd', [])) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_indexerclustergroup_CSDI_IDX]
+      servers = {{ (groups.get('idx', []) + groups.get('cm', []) + groups.get('sh', [])) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_indexer]
+      default = false
+      servers = {{ groups.get('idx', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_kv_store]
+      servers = {{ groups.get('sh', []) | map('regex_replace', '$', ':8089') | join(',') }}
+
+      [distributedSearch:dmc_group_shc_deployer]
+      servers = {{ groups.get('shcd', []) | map('regex_replace', '$', ':8089') | join(',') }}
+    owner: splunk
+    group: splunk
+    mode: '0644'
+  notify: Restart Splunk  
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+

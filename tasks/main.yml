@@ -1,0 +1,76 @@
+---
+# tasks file for splunk
+- name: Install Splunk
+  include_tasks: installation.yml 
+
+- name: license-manager Config
+  include_tasks: license-manager-config.yml
+  when: "'lm' in group_names"
+
+
+- name: license-peers Config
+  include_tasks: license-peers.yml
+  when: "'lm' not in group_names"
+
+- name: Cluster Manager Config
+  include_tasks: cluster-manager.yml
+  when: "'cm' in group_names"
+
+- name: Indexers Config
+  include_tasks: indexerpeers-configuration.yml
+  when: "'idx' in group_names"
+
+- name: Search head Cluster Deployer Config
+  include_tasks: shcd-configuration.yml
+  when: "'shcd' in group_names"
+
+- name: Search Heads Config
+  include_tasks: searchhead-configuration.yml
+  when: "'captain' in group_names"
+
+- name: Captain Config
+  include_tasks: bootstrap-captain-configuration.yml
+  when: "'sh' in group_names"
+
+- name: Creat MC User
+  include_tasks: mc-user.yml
+  when: "'hf' not in group_names"
+
+- name: Connect MC to another Splunk
+  include_tasks: connect-to-mc.yml
+  when: "'mc' in group_names"
+
+- name: Edit Roles in Distribiuted Monitoring Console
+  include_tasks: editroles-mc.yml
+  when: "'mc' in group_names"
+
+- name: Heavy Forwarder Connect to DS
+  include_tasks: hf-config.yml
+  when: "'hf' in group_names"
+
+- name: Output config 
+  include_tasks: output-config.yml
+  when:
+  - "'ds' not in group_names"
+  - "'hf' not in group_names"
+  - "'idx' not in group_names"
+
+- name: Output For DS
+  include_tasks: output-ds-config.yml
+  when: "'ds' in group_names"
+
+- name: Push Apps From CM To Indexers
+  include_tasks: push-apps-cm.yml
+  when: "'cm' in group_names"
+
+- name: Deploy Apps From DS
+  include_tasks: DS-apps.yml
+  when: "'ds' in group_names"
+
+- name: Bundle Apps From SHCD to Search heads
+  include_tasks: sh-app.yml
+  when: "'shcd' in group_names"
+
+
+
+

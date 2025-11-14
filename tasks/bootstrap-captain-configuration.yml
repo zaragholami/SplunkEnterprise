@@ -1,0 +1,20 @@
+- name: Generate servers_list for SHC Bootstrap
+  set_fact:
+    servers_list: "{{ groups['sh'] | map('extract', hostvars, 'inventory_hostname') | map('regex_replace', '^(.*)$', 'https://\\1:8089') | join(',') }}"
+
+- name: Bootstrap Search Head Cluster Captain
+  command: >
+    {{ splunk_bin }} bootstrap shcluster-captain
+    -servers_list "{{ servers_list }}"
+    -auth '{{ admin_username }}:{{ admin_password }}'
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+

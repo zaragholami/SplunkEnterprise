@@ -1,0 +1,204 @@
+<form version="1.1" theme="dark">
+  <label>Linux OS Dashboard</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="text" token="field1">
+      <label>Host</label>
+      <default>$clickedHOST$</default>
+    </input>
+    <input type="time" token="field2">
+      <label>Time Frame</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Hosts</title>
+        <search>
+          <query>`Linux_index`
+| stats dc(host) as totalHostnames</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Unique Hosts Reporting Linux Secure</title>
+        <search>
+          <query>`Linux_index` sourcetype=linux_secure 
+| rex "\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s(?&lt;hostname&gt;\S+)" 
+| stats dc(hostname) as "Unique Hosts"</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Events per Linux host</title>
+        <search>
+          <query>`Linux_index` sourcetype=linux_secure 
+| rex "\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s(?&lt;hostname&gt;\S+)" 
+| stats count by hostname</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Risky Commands Executed</title>
+      <table>
+        <search>
+          <query>sourcetype=bash_history (sh OR ./) | table _time user_name host bash_command | sort - _time</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="color" field="USER">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="SRC_IP">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="HOST">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="bash_command">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Commands</title>
+        <search>
+          <query>`Linux_index` sourcetype=bash_history host="*" | table _time, host, user_name, bash_command | sort - _time</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="user_name">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Execute Command Events</title>
+        <search>
+          <query>`Linux_index` sourcetype=bash_history host="*" bash_command="./*" OR bash_command="sh *"</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="color" field="bash_command">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Linux users who escalated privileges</title>
+        <search>
+          <query>`Linux_index` sourcetype=linux_secure "su: " OR "sudo: " 
+| eval Date=strftime(_time, "%Y/%m/%d") 
+| rex "\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s(?&lt;hostname&gt;\S+)" 
+| regex _raw="\suser\sroot\sby" 
+| rex "\suser\sroot\sby\s(?&lt;user&gt;\w+)" 
+| stats count by user, host</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="host">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Hosts where root user activity was identified</title>
+        <search>
+          <query>`Linux_index` sourcetype=linux_secure 
+| rex "\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s(?&lt;hostname&gt;\S+)" 
+| rex "\suser\s(?&lt;User&gt;[^\s]+)\s" 
+| search User="root" 
+| stats count as "Root Activity Count" by hostname</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="hostname">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <title>Total Commands Executed by USER</title>
+      <table>
+        <title>How many commands per machine by USER</title>
+        <search>
+          <query>`Linux_index` sourcetype=bash_history | stats count(bash_command) by user_name host</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="USER">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="HOST">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="host">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

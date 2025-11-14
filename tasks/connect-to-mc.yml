@@ -1,0 +1,9 @@
+- name: Add search-servers from MC (connect MC to other Splunks)
+  command: >
+    {{ splunk_bin }} add search-server https://{{ item }}:8089
+    -remoteUsername '{{ mc_username }}'
+    -remotePassword '{{ mc_password }}'
+    -auth '{{ admin_username }}':'{{ admin_password }}'
+  with_items: "{{ groups['all'] | difference(groups['mc'] + groups['hf'] + groups['ds']) }}"  # Exclude mc, hf, and ds
+  when: inventory_hostname in groups['mc']  # Ensure it runs only on MC
+

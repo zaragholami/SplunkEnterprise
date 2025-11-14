@@ -1,0 +1,57 @@
+[all]
+sh01 ansible_host=x.x.x.x
+sh02 ansible_host=x.x.x.x
+sh03 ansible_host=x.x.x.x
+shcd ansible_host=x.x.x.x
+ds    ansible_host=x.x.x.x
+mc    ansible_host=x.x.x.x
+lm    ansible_host=x.x.x.x
+cm    ansible_host=x.x.x.x
+idx01 ansible_host=x.x.x.x
+idx02 ansible_host=x.x.x.x
+idx03 ansible_host=x.x.x.x
+hf    ansible_host=x.x.x.x
+
+# ------------------------
+# SPLUNK GROUPS
+# ------------------------
+
+# Search Head Cluster Members
+[sh]
+sh01
+sh02
+sh03
+
+[captain]
+sh01
+
+# Search Head Cluster Deployer
+[shcd]
+shcd
+
+# Deployment Server
+[ds]
+ds
+
+# Monitoring Console
+[mc]
+mc
+
+# License Master
+[lm]
+lm
+
+# Indexer Cluster Master
+[cm]
+cm
+
+# Indexer Cluster Peers
+[idx]
+idx01
+idx02
+idx03
+
+# Heavy Forwarder
+[hf]
+hf
+

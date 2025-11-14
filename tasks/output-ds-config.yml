@@ -1,0 +1,30 @@
+- name: Read IDX IPs from Ansible hosts
+  set_fact:
+    idx_ips: "{{ groups['idx'] | map('extract', hostvars, ['ansible_host']) | list }}"
+
+- name: Create outputs.conf file for DS hosts
+  copy:
+    dest: "{{ outputs.conf }}" 
+    content: |
+      [tcpout]
+      forwardedindex.2.whitelist = (_audit|_internal|_introspection|_telemetry|_metrics|_metrics_rollup|_configtracker|_dsclient|_dsphonehome|_dsappevent)
+      defaultGroup = idx-group
+      [tcpout:idx-group]
+      server = {{ idx_ips | join(':9997, ') }}:9997
+      [indexAndForward]
+      index = true
+      selectiveIndexing = true
+    mode: '0644'
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+
+
+

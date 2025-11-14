@@ -1,0 +1,12 @@
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+version = 8.2.6
+modtime = 1670759163.965017000
+
+[views/Linux]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 8.2.6
+modtime = 1670999014.530368000

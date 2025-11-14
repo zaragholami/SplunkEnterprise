@@ -1,0 +1,21 @@
+- name: Cluster Manager Configuration
+  command: >
+    {{ splunk_bin }} edit cluster-config
+    -mode manager
+    -replication_factor {{ replication_factor }}
+    -search_factor {{ search_factor }}
+    -secret '{{ cluster_secret }}'
+    -cluster_label {{ cluster_label }}
+    -auth '{{ admin_username }}:{{ admin_password }}'
+  notify: Restart Splunk
+  register: config_change
+
+- name: Wait for Splunk management port (8089)
+  wait_for:
+    port: 8089
+    timeout: 300
+    delay: 5
+  when: config_change.changed
+
+ 
+

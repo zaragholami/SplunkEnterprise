@@ -1,0 +1,77 @@
+<form version="1.1" theme="dark">
+  <label>Performance</label>
+    <fieldset submitButton="false" autoRun="true">
+    <input type="text" token="field1">
+	<label>Host</label>
+      <default>$clickedHOST$</default>
+    </input>
+    <input type="time" token="field2">
+      <label>Time Frame</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+    <row>
+    <panel>
+      <chart>
+        <title>CPU usage over time on Linux machine</title>
+        <search>
+          <query>`Linux_index` sourcetype=top pctCPU=* | timechart avg(pctCPU) as pctCPU by host</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Memory usage over time on Linux machine</title>
+        <search>
+          <query>`Linux_index` sourcetype=top pctMEM=* | timechart sum(pctMEM) as pctMEM by host</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Disk free space over time on Linux machine</title>
+        <search>
+          <query>`Linux_index` sourcetype=df PercentFreeSpace=* mount="/" | timechart latest(PercentFreeSpace) as "% Free Space" by host</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Linux machine uptime</title>
+        <search>
+          <query>`Linux_index` sourcetype=Unix:Uptime | dedup host | eval days=round(SystemUpTime/(60*60*24),2), weeks=round(days/7,2), months=round(days/30,2) | table host days weeks months SystemUpTime |sort - SystemUpTime | rename days as "Days Up", weeks as "Weeks Up" months as "Months Up", SystemUpTime as "Seconds Up"</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="color" field="host">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>
