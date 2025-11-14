@@ -24,6 +24,7 @@ The role allows you to place the **latest Splunk version** in a specified direct
 - Ansible **2.9+**
 - Sudo privileges on target hosts
 - Supported platforms:
+- Latest Version Splunk
   - Ubuntu 
   - RedHat/Oracle Linux 
 
