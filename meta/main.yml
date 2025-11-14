@@ -1,8 +1,7 @@
 galaxy_info:
   author: Zahragholami
   description: >
-    Splunk role to install and configure Splunk Enterprise components (SH, IDX, HF).
-    Handles restarts and waits for ports to be ready.
+    Splunk role to install and configure Splunk Enterprise components (SH,IDX,HF,CM,LM,SHCD,DS).
   company: SSS
   license: MIT
   min_ansible_version: 2.9
