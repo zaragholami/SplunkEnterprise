@@ -11,7 +11,7 @@ The role allows you to place the **latest Splunk version** in a specified direct
 
 ## **Features**
 
-- Install Splunk Enterprise on **RedHat, CentOS, Oracle Linux, and Ubuntu**.
+- Install Splunk Enterprise on **RedHat, Oracle Linux, and Ubuntu**.
 - Configure **All of Components**.
 - Handles **service restarts and port availability**.
 - Designed for **distributed Splunk environments**.
