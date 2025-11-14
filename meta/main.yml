@@ -13,6 +13,5 @@ galaxy_info:
         - 8
   galaxy_tags:
     - splunk
-    - ansible
 dependencies: []
 
