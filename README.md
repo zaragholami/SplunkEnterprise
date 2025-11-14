@@ -9,7 +9,7 @@ This role handles installation, configuration, service restarts, and ensures por
 ## **Features**
 
 - Install Splunk Enterprise on **RedHat, CentOS, Oracle Linux, and Ubuntu**.
-- Configure **Search Heads, Indexers, Heavy Forwarders, License Manager**.
+- Configure **All of Components**.
 - Handles **service restarts and port availability**.
 - Designed for **distributed Splunk environments**.
 - Easy to include in your playbooks and scale to multiple hosts.
@@ -21,8 +21,8 @@ This role handles installation, configuration, service restarts, and ensures por
 - Ansible **2.9+**
 - Sudo privileges on target hosts
 - Supported platforms:
-  - Ubuntu (all supported versions)
-  - RedHat/CentOS/Oracle Linux 7, 8
+  - Ubuntu 
+  - RedHat/Oracle Linux 
 
 ---
 
