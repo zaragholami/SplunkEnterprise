@@ -25,11 +25,3 @@ This role handles installation, configuration, service restarts, and ensures por
   - RedHat/Oracle Linux 
 
 ---
-
-## **Example Playbook**
-
-```yaml
-- hosts: sh
-  become: yes
-  roles:
-    - splunk
