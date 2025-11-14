@@ -1,38 +1,30 @@
-Role Name
-=========
+# Splunk Enterprise Ansible Role
 
-A brief description of the role goes here.
+Ansible role to **install and configure Splunk Enterprise components** in a distributed environment, including Search Heads (SH), Indexers (IDX), Heavy Forwarders (HF), License Manager (LM) Cluster Manager (CM) Search Head Cluster Deployer (SHCD) Deployement Server (DS).  
 
-Requirements
-------------
+This role is designed for **offline servers** where internet access is not available.  
+All sensitive variables, including passwords and secrets, can be securely managed using **Ansible Vault**.  
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The role allows you to place the **latest Splunk version** in a specified directory, which is configurable via role variables, so installation is flexible and controlled.
 
-Role Variables
---------------
+---
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## **Features**
 
-Dependencies
-------------
+- Install Splunk Enterprise on **RedHat, CentOS, Oracle Linux, and Ubuntu**.
+- Configure **All of Components**.
+- Handles **service restarts and port availability**.
+- Designed for **distributed Splunk environments**.
+- Easy to include in your playbooks and scale to multiple hosts.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
 
-Example Playbook
-----------------
+## **Requirements**
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+- Ansible **2.9+**
+- Sudo privileges on target hosts
+- Supported platforms:
+  - Ubuntu 
+  - RedHat/Oracle Linux 
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+---
