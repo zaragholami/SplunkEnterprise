@@ -2,7 +2,10 @@
 
 Ansible role to **install and configure Splunk Enterprise components** in a distributed environment, including Search Heads (SH), Indexers (IDX), Heavy Forwarders (HF), License Manager (LM) Cluster Manager (CM) Search Head Cluster Deployer (SHCD) Deployement Server (DS).  
 
-This role handles installation, configuration, service restarts, and ensures ports are ready before continuing tasks.
+This role is designed for **offline servers** where internet access is not available.  
+All sensitive variables, including passwords and secrets, can be securely managed using **Ansible Vault**.  
+
+The role allows you to place the **latest Splunk version** in a specified directory, which is configurable via role variables, so installation is flexible and controlled.
 
 ---
 
