@@ -3,7 +3,7 @@ galaxy_info:
   description: >
     Splunk role to install and configure Splunk Enterprise components (SH, IDX, HF).
     Handles restarts and waits for ports to be ready.
-  company: YourCompany
+  company: SSS
   license: MIT
   min_ansible_version: 2.9
   platforms:
